@@ -1,0 +1,9 @@
+@media (min-width: $mobile-breakpoint) {
+    .mainPage {
+        @include desktop-grid()
+    }
+
+    .desktop-content {
+        
+    }
+}

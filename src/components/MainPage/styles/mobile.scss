@@ -1,0 +1,39 @@
+@media (max-width: $mobile-breakpoint) {
+
+    .mainPage {
+        @include mobile-grid();
+    }
+
+    .mobile-content {
+        .header {
+            padding: 0 60px;
+            margin-bottom: 30px;
+
+            .greeting-title {
+               @include style-font($primary-text-blue, $poppins, 28px, 600, 42px, 0);
+               text-align: center;
+            }
+        }
+
+        .add-city {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 18px;
+            padding-bottom: 18px;
+            margin-bottom: 30px;
+
+            .btn {
+                @include button;
+                margin-right: 15px;
+                color: $primary-text-blue;
+            }
+
+            .txt {
+                @include style-font($primary-text-blue, $poppins, 20px, 600, 30px, 0);
+               text-align: center;
+
+            }
+        }
+    }
+}

@@ -1,0 +1,7 @@
+@media (max-width: $mobile-breakpoint) {
+    .cityCard {
+        @include card-style();
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+}
