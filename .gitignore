@@ -44,6 +44,9 @@ build/Release
 # TypeScript v1 declaration files
 typings/
 
+# API KEY
+.env 
+
 # TypeScript cache
 *.tsbuildinfo
 

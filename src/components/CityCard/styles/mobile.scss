@@ -1,7 +1,39 @@
 @media (max-width: $mobile-breakpoint) {
-    .cityCard {
-        @include card-style();
-        padding: 20px;
-        margin-bottom: 20px;
+  .cityCard {
+    @include card-style();
+    padding: 20px 25px 20px 20px;
+    margin-bottom: 20px;
+    background: radial-gradient(circle, #011354 0%, #5b9fe3 100%);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+
+    .left-content {
+      @include d-flex (unset, unset, column);
+
+      .city-name {
+        @include style-font($primary-text-white, $poppins, 26px, 600, 39px, 0);
+      }
+
+      .date {
+        @include style-font($primary-text-white, $poppins, 15px, 500, 18px, 0);
+        padding-bottom: 12px;
+      }
+
+      .time {
+        @include style-font($primary-text-white, $poppins, 12px, 300, 18px, 0);
+      }
     }
+
+    .center-content {
+        @include d-flex (center, unset, unset)
+    }
+
+    .right-content {
+      .temperature {
+        @include style-font($primary-text-white, $poppins, 50px, 700, 76px, 0);
+        text-align: right;
+      }
+    }
+  }
 }

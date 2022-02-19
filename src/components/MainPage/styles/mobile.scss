@@ -16,9 +16,7 @@
         }
 
         .add-city {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            @include d-flex (center, center, row);
             padding-top: 18px;
             padding-bottom: 18px;
             margin-bottom: 30px;

@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
+
+import { useDispatch, useSelector } from "react-redux";
+import { fetchWeather } from "../../redux/services/slices.js";
 
 import CityCard from "../CityCard/CityCard.js";
 
@@ -9,6 +12,14 @@ import "./styles/index.scss";
 
 const MainPage = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+  const { weather, loading, errror } = state;
+
+  useEffect(() => {
+    dispatch(fetchWeather("London"));
+  }, []);
 
   const renderAddCityBtn = () => {
     return (

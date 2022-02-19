@@ -1,35 +1,50 @@
 // colors
 $primary-text-blue: #01175f;
+$primary-text-white: #ffffff;
 
 // fonts
-$poppins: 'Poppins', sans-serif;
+$poppins: "Poppins", sans-serif;
 
 // mixins
 @mixin mobile-grid {
-    padding: 50px 20px 20px 20px;
+  padding: 50px 20px 20px 20px;
 }
 
 @mixin desktop-grid {
-    padding: 50px 50px 40px 50px;
+  padding: 50px 50px 40px 50px;
 }
 
 @mixin button {
-    background: none;
-    border: none;
+  background: none;
+  border: none;
 }
 
-@mixin card-style () {
-    box-shadow: 5px 10px 20px 0 rgba(0,0,0,0.17);
-    border-radius: 25px;
+@mixin card-style() {
+  box-shadow: 5px 10px 20px 0 rgba(0, 0, 0, 0.17);
+  border-radius: 25px;
 }
 
-@mixin style-font ($color, $font-family, $font-size, $font-weight, $line-height, $letter-spacing) {
-    color: $color;
-    font-family: $font-family;
-    font-size: $font-size;
-    font-weight: $font-weight;
-    line-height: $line-height;
-    letter-spacing: $letter-spacing;
+@mixin d-flex($justify, $align, $direction) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+}
+
+@mixin style-font(
+  $color,
+  $font-family,
+  $font-size,
+  $font-weight,
+  $line-height,
+  $letter-spacing
+) {
+  color: $color;
+  font-family: $font-family;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  line-height: $line-height;
+  letter-spacing: $letter-spacing;
 }
 // media queries
 $mobile-breakpoint: 768px;
