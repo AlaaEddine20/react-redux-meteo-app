@@ -3,13 +3,28 @@
     @include card-style();
     padding: 20px 25px 20px 20px;
     margin-bottom: 20px;
-    background: radial-gradient(circle, #011354 0%, #5b9fe3 100%);
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
 
+    &.rain {
+      background: radial-gradient(circle, #011354 0%, #5b9fe3 100%);
+    }
+
+    &.clear {
+      background: radial-gradient(circle, #5374e7 0%, #77b9f5 100%);
+    }
+
+    &.clouds {
+      background:  radial-gradient(circle, #464C64 0%, #99A9B9 100%);
+    }
+
+    &.snow {
+      background: radial-gradient(circle, #a7b6ee 0%, #d6d8da 100%)
+    }
+
     .left-content {
-      @include d-flex (unset, unset, column);
+      @include d-flex(unset, unset, column);
 
       .city-name {
         @include style-font($primary-text-white, $poppins, 26px, 600, 39px, 0);
@@ -26,7 +41,7 @@
     }
 
     .center-content {
-        @include d-flex (center, unset, unset)
+      @include d-flex(center, unset, unset);
     }
 
     .right-content {

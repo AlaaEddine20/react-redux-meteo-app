@@ -1,37 +1,45 @@
 @media (max-width: $mobile-breakpoint) {
+  .mainPage {
+    @include mobile-grid();
+  }
 
-    .mainPage {
-        @include mobile-grid();
+  .mobile-content {
+    .header {
+      padding: 0 60px;
+      margin-bottom: 30px;
+
+      .greeting-title {
+        @include style-font($primary-text-blue, $poppins, 28px, 600, 42px, 0);
+        text-align: center;
+      }
     }
 
-    .mobile-content {
-        .header {
-            padding: 0 60px;
-            margin-bottom: 30px;
+    .add-city {
+      @include d-flex(center, center, row);
+      padding-top: 18px;
+      padding-bottom: 18px;
+      margin-bottom: 30px;
 
-            .greeting-title {
-               @include style-font($primary-text-blue, $poppins, 28px, 600, 42px, 0);
-               text-align: center;
-            }
-        }
+      .btn {
+        @include button;
+        margin-right: 15px;
+        color: $primary-text-blue;
+      }
 
-        .add-city {
-            @include d-flex (center, center, row);
-            padding-top: 18px;
-            padding-bottom: 18px;
-            margin-bottom: 30px;
-
-            .btn {
-                @include button;
-                margin-right: 15px;
-                color: $primary-text-blue;
-            }
-
-            .txt {
-                @include style-font($primary-text-blue, $poppins, 20px, 600, 30px, 0);
-               text-align: center;
-
-            }
-        }
+      .txt {
+        @include style-font($primary-text-blue, $poppins, 20px, 600, 30px, 0);
+        text-align: center;
+      }
     }
+
+    .nav-menu {
+      @include card-style();
+      @include d-flex(space-between, center, row);
+      padding: 26px 50px;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      left: 20px;
+    }
+  }
 }

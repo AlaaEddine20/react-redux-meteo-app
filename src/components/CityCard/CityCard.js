@@ -1,18 +1,26 @@
 import React from "react";
+import moment from "moment";
 
 import "./styles/index.scss";
 
-const CityCard = () => {
+const CityCard = ({ cityName, temperature, weather, icon }) => {
+  console.log("CHECK WEATHER: ", weather);
   return (
-    <div className="cityCard">
+    <div
+      className={`cityCard ${weather === "Clouds" && "clouds"} ${
+        weather === "Clear" && "clear"
+      } ${weather === "Rain" && "rain"} ${weather === "Snow" && "snow"}`}
+    >
       <div className="left-content">
-        <p className="city-name">Turin</p>
-        <p className="date">Friday, 18, september</p>
-        <p className="time">2:38 p.m</p>
+        {cityName && <p className="city-name">{cityName}</p>}
+        <p className="date">{moment().format("dddd, DD, MMMM ")}</p>
+        <p className="time">{moment().format("h:mm a")}</p>
       </div>
-      <div className="center-content">ICON</div>
+      <div className="center-content">
+        <img src={`http://openweathermap.org/img/w/${icon}.png`} alt="" />
+      </div>
       <div className="right-content">
-        <p className="temperature">18</p>
+        <p className="temperature">{temperature}</p>
       </div>
     </div>
   );
