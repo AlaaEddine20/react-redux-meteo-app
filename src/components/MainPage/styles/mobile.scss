@@ -32,7 +32,7 @@
       }
     }
 
-    .nav-menu {
+    .mobile-menu {
       @include card-style();
       @include d-flex(space-between, center, row);
       padding: 26px 50px;
@@ -40,6 +40,27 @@
       bottom: 20px;
       right: 20px;
       left: 20px;
+
+      .menu-item {
+        height: 24px;
+        width: 24px;
+        position: relative;
+
+        img {
+            max-width: 100%;
+            object-fit: cover;
+        }
+        &.active::after {
+          position: absolute;
+          bottom: -24px;
+          left: 50%;
+          transform: translate(-50%, 0);
+          content: "";
+          height: 2px;
+          width: 71px;
+          background: $primary-text-blue;
+        }
+      }
     }
   }
 }

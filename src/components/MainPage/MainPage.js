@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addLocation, setLocations } from "../../redux/actions/index";
+import { addLocations } from "../../redux/actions/index";
 
 import CityCard from "../CityCard/CityCard.js";
+import DetailPage from "../DetailPage/DetailPage.js";
 
 import AddIcon from "./../../assets/Plus.png";
 import Home from "./../../assets/Home.png";
@@ -17,6 +19,7 @@ import "./styles/index.scss";
 const MainPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [openAddCity, setOpenAddCity] = useState(false);
+  const [activeStickyMenu, setActiveStickyMenu] = useState("home");
 
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
@@ -24,13 +27,28 @@ const MainPage = () => {
 
   const dispatch = useDispatch();
 
+  const menuItems = [
+    {
+      name: "home",
+      icon: Home,
+    },
+    {
+      name: "search",
+      icon: Search,
+    },
+    {
+      name: "location",
+      icon: Location,
+    },
+  ];
+
   const getWeatherByCityName = async () => {
     const baseUrl = `https://api.openweathermap.org/data/2.5/weather`;
 
     const { data } = await axios.get(
       `${baseUrl}?q=${searchTerm}&appid=${process.env.REACT_APP_API_KEY}&units=metric`,
     );
-    dispatch(setLocations(data));
+    dispatch(addLocations(data));
   };
 
   const handleOpenAddCity = () => {
@@ -67,6 +85,29 @@ const MainPage = () => {
     );
   };
 
+  const renderMenuItems = () => {
+    return (
+      <div className="mobile-menu">
+        {menuItems.map((item, index) => (
+          <div
+            className={`menu-item ${
+              activeStickyMenu === item.name && "active"
+            }`}
+            key={index}
+          >
+            <img
+              id={item.name}
+              role="button"
+              src={item.icon}
+              alt="home button"
+              onClick={() => setActiveStickyMenu(item.name)}
+            />
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   const renderMobilePage = () => {
     return (
       <div className="mobile-content">
@@ -74,26 +115,22 @@ const MainPage = () => {
           <h1 className="greeting-title">Good Morning! Mario</h1>
         </div>
         {renderAddCityBtn()}
-        {allLocations.length > 0 ? (
-          <div className="city-card-container">
-            {allLocations.map((location, index) => {
-              return (
-                <CityCard
-                  key={index}
-                  cityName={location.name}
-                  temperature={location.main.temp}
-                  weather={location.weather[0].main}
-                  icon={location.weather[0].icon}
-                />
-              );
-            })}
-          </div>
-        ) : null}
-        <div className="nav-menu">
-          <img role="button" src={Home} alt="home button" />
-          <img role="button" src={Search} alt="seaarch button" />
-          <img role="button" src={Location} alt="location button" />
-        </div>
+        {allLocations.length > 0
+          ? allLocations.map((location, index) => (
+              <div className="city-card-container">
+                <Link to={`/details/${location.id}`}>
+                  <CityCard
+                    key={index}
+                    cityName={location.name}
+                    temperature={location.main.temp}
+                    weather={location.weather[0].main}
+                    icon={location.weather[0].icon}
+                  />
+                </Link>
+              </div>
+            ))
+          : null}
+        {renderMenuItems()}
       </div>
     );
   };

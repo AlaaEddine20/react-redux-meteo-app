@@ -1,15 +1,9 @@
 import { ActionTypes } from "../constants/index.js";
 
-export const setLocations = (locations) => {
+export const addLocations = (locations) => {
   return {
-    type: ActionTypes.SET_LOCATIONS,
+    type: ActionTypes.ADD_LOCATIONS,
     payload: locations,
   };
 };
 
-export const addLocation = (location) => {
-  return {
-    type: ActionTypes.ADD_LOCATION,
-    payload: location,
-  };
-};

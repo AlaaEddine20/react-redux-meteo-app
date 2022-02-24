@@ -6,10 +6,8 @@ const initialState = {
 
 const locationReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case ActionTypes.SET_LOCATIONS:
+    case ActionTypes.ADD_LOCATIONS:
       return { ...state, locations: state.locations.concat(payload) };
-    /*case ActionTypes.ADD_LOCATION:
-      return { ...state.locations, locations: { ...state.locations, payload } };*/
     default:
       return state;
   }

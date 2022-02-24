@@ -4,7 +4,6 @@ import moment from "moment";
 import "./styles/index.scss";
 
 const CityCard = ({ cityName, temperature, weather, icon }) => {
-  console.log("CHECK WEATHER: ", weather);
   return (
     <div
       className={`cityCard ${weather === "Clouds" && "clouds"} ${
