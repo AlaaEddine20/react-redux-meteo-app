@@ -1,0 +1,67 @@
+@media (max-width: $mobile-breakpoint) {
+  .weather-city-details {
+    width: 100vw;
+    height: 100vh;
+    @include mobile-grid();
+
+    &.rain {
+      background: radial-gradient(circle, #011354 0%, #5b9fe3 100%);
+    }
+
+    &.clear {
+      background: radial-gradient(circle, #5374e7 0%, #77b9f5 100%);
+    }
+
+    &.clouds {
+      background: radial-gradient(circle, #464c64 0%, #99a9b9 100%);
+    }
+
+    &.snow {
+      background: radial-gradient(circle, #a7b6ee 0%, #d6d8da 100%);
+    }
+
+    .header {
+      @include d-flex(space-between, center, row);
+
+      .city-name {
+        @include style-font($primary-text-white, $poppins, 600, 32px, 48px, 0);
+      }
+    }
+
+    .hero-section {
+      text-align: center;
+      margin-top: 10px;
+
+      .date {
+        @include style-font($primary-text-white, $poppins, 20px, 500, 18px, 0);
+        padding-bottom: 12px;
+      }
+
+      .weather-type {
+        @include style-font($primary-text-white, $poppins, 20px, 500, 30px, 0);
+        margin-top: 20px;
+      }
+
+      .hero-subSection {
+        margin-top: 24px;
+        @include d-flex(space-around, center, row);
+
+        .weather-icon {
+          width: 100px;
+          height: 100px;
+        }
+
+        .temperature {
+          @include style-font(
+            $primary-text-white,
+            $poppins,
+            110px,
+            700,
+            166px,
+            0
+          );
+        }
+      }
+    }
+  }
+}
