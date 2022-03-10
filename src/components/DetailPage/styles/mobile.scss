@@ -63,5 +63,30 @@
         }
       }
     }
+
+    .nextDays::-webkit-scrollbar {
+    display: none;
+}
+
+    .nextDays {
+    display: flex;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    gap: 15px;
+    height: 280px;
+    
+    .day-box {
+        width: 148px;
+        height: 232px;
+        @include d-flex(center, center, column);
+        @include card-style();
+        flex: 0 0 auto;
+        background: $day-card-color;
+
+        .day-name {
+            @include style-font($primary-text-white, $poppins, 22px, 600, 33px, 0);
+        }
+    }
+    }
   }
 }

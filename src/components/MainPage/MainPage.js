@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { addLocations } from "../../redux/actions/index";
 
 import CityCard from "../CityCard/CityCard.js";
-import DetailPage from "../DetailPage/DetailPage.js";
 
 import AddIcon from "./../../assets/Plus.png";
 import Home from "./../../assets/Home.png";
@@ -90,6 +89,7 @@ const MainPage = () => {
       <div className="mobile-menu">
         {menuItems.map((item, index) => (
           <div
+            key={index}
             className={`menu-item ${
               activeStickyMenu === item.name && "active"
             }`}

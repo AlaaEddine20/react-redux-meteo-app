@@ -25,10 +25,12 @@ const CityCard = ({ cityName, temperature, weather, icon }) => {
         <p className="time">{moment().format("h:mm a")}</p>
       </div>
       <div className="center-content">
-        <img src={`http://openweathermap.org/img/w/${icon}.png`} alt="" />
+        {icon && (
+          <img src={`http://openweathermap.org/img/wn/${icon}@2x.png`} alt="" />
+        )}
       </div>
       <div className="right-content">
-        <p className="temperature">{temperature.toFixed(0)}</p>
+        {temperature && <p className="temperature">{temperature.toFixed(0)}</p>}
       </div>
     </div>
   );

@@ -2,15 +2,18 @@ import { ActionTypes } from "../constants/index";
 
 const initialState = {
   locations: [],
+  forecastTimeline: [],
 };
 
-const locationReducer = (state = initialState, { type, payload }) => {
+const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case ActionTypes.ADD_LOCATIONS:
       return { ...state, locations: state.locations.concat(payload) };
+    case ActionTypes.SET_FORECAST:
+      return { ...state, forecastTimeline: payload };
     default:
       return state;
   }
 };
 
-export default locationReducer;
+export default reducer;
