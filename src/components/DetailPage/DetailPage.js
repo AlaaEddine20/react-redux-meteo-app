@@ -37,13 +37,13 @@ const DetailPage = () => {
     (currentItem.weather && currentItem?.weather[0]?.icon) || "";
 
   const giveClassByWeatherType = () => {
-    if (weather == "Clouds") {
+    if (weather === "Clouds") {
       return "clouds";
-    } else if (weather == "Clear") {
+    } else if (weather === "Clear") {
       return "clear";
-    } else if (weather == "Rain") {
+    } else if (weather === "Rain") {
       return "rain";
-    } else if (weather == "Snow") {
+    } else if (weather === "Snow") {
       return "snow";
     }
   };
@@ -57,14 +57,14 @@ const DetailPage = () => {
 
         setHours(
           forecastTimeline
-            ?.filter((hr) => hr.dt_txt?.slice(0, 10) == today)
+            ?.filter((hr) => hr.dt_txt?.slice(0, 10) === today)
             .map((hrs) => hrs.dt_txt),
         );
 
         setNextDaysForecast(
           forecastTimeline
             ?.filter((date) => date?.dt_txt.slice(0, 10) !== today)
-            .filter((_, i) => i % 8 == 0),
+            .filter((_, i) => i % 8 === 0),
         );
       }
     }
@@ -78,8 +78,7 @@ const DetailPage = () => {
   };
 
   return (
-    console.log("LOG_____________________> ", nextDaysForecast),
-    (
+  
       <div className={`weather-city-details ${giveClassByWeatherType()}`}>
         <div className="header">
           <Link to="/">
@@ -102,7 +101,7 @@ const DetailPage = () => {
               />
             )}
             {temperature && (
-              <h6 className="temperature">{temperature.toFixed(0)}°</h6>
+              <div className="temperature">{temperature.toFixed(1)}°</div>
             )}
           </div>
         </div>
@@ -113,7 +112,7 @@ const DetailPage = () => {
                 <div className="day-name">
                   {moment(day.dt_txt.slice(0, 10)).format("dddd")}
                 </div>
-                <div className="day-temp">{day.main.temp.toFixed(0)}°</div>
+                <div className="day-temp">{day.main.temp.toFixed(1)}°</div>
               </div>
             ))}
           </div>
@@ -122,7 +121,7 @@ const DetailPage = () => {
        
       ))}</div>*/}
       </div>
-    )
+    
   );
 };
 

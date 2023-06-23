@@ -6,13 +6,13 @@ import "./styles/index.scss";
 const CityCard = ({ cityName, temperature, weather, icon }) => {
 
   const giveClassByWeatherType = () => {
-    if (weather == "Clouds") {
+    if (weather === "Clouds") {
       return "clouds";
-    } else if (weather == "Clear") {
+    } else if (weather === "Clear") {
       return "clear";
-    } else if (weather == "Rain") {
+    } else if (weather === "Rain") {
       return "rain";
-    } else if (weather == "Snow") {
+    } else if (weather === "Snow") {
       return "snow";
     }
   };

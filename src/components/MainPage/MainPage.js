@@ -93,7 +93,6 @@ const MainPage = () => {
             className={`menu-item ${
               activeStickyMenu === item.name && "active"
             }`}
-            key={index}
           >
             <img
               id={item.name}
