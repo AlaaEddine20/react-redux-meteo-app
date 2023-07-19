@@ -115,11 +115,11 @@ const MainPage = () => {
         </div>
         {renderAddCityBtn()}
         {allLocations.length > 0
-          ? allLocations.map((location, index) => (
-              <div className="city-card-container">
+          && allLocations.map((location) => (
+              <div key={location.id} className="city-card-container">
                 <Link to={`/details/${location.id}`}>
                   <CityCard
-                    key={index}
+                    key={location.id}
                     cityName={location.name}
                     temperature={location.main.temp}
                     weather={location.weather[0].main}
@@ -127,8 +127,7 @@ const MainPage = () => {
                   />
                 </Link>
               </div>
-            ))
-          : null}
+            ))}
         {renderMenuItems()}
       </div>
     );

@@ -7,10 +7,10 @@ export const addLocations = (locations) => {
   };
 };
 
-export const setForecast = (timeline) => {
+export const setForecast = (forecast) => {
   return {
     type: ActionTypes.SET_FORECAST,
-    payload: timeline,
+    payload: forecast,
   };
 };
 

@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
 import locationReducer from "./locationReducer.js";
 
-const reducers = combineReducers({
+const customReducers = combineReducers({
   weatherReducer: locationReducer,
 });
 
-export default reducers;
+export default customReducers;

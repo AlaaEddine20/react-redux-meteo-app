@@ -12,73 +12,77 @@ import AddButton from "../../assets/Plus-white.png";
 import "./styles/index.scss";
 
 const DetailPage = () => {
-  const [hours, setHours] = useState(null);
   const [nextDaysForecast, setNextDaysForecast] = useState([]);
+  const [currentItem, setCurrentItem] = useState()
 
-  const allLocations =
-    useSelector((state) => state.weatherReducer.locations) || null;
-  const forecastTimeline =
-    useSelector(
-      (state) =>
-        state.weatherReducer.forecastTimeline?.list &&
-        state.weatherReducer.forecastTimeline?.list,
-    ) || null;
+  const allLocations = useSelector((state) => state.weatherReducer.locations);
+  const forecastTimeline = useSelector((state) => state.weatherReducer?.forecastTimeline);
 
   const dispatch = useDispatch();
 
   const { id } = useParams();
 
-  const currentItem =
-    allLocations.length > 0 ? allLocations.find((item) => id == item.id) : {};
 
-  const weather = currentItem.weather && currentItem?.weather[0]?.main;
-  const temperature = currentItem?.main && currentItem?.main?.temp;
-  const weatherIcon =
-    (currentItem.weather && currentItem?.weather[0]?.icon) || "";
 
-  const giveClassByWeatherType = () => {
-    if (weather === "Clouds") {
-      return "clouds";
-    } else if (weather === "Clear") {
-      return "clear";
-    } else if (weather === "Rain") {
-      return "rain";
-    } else if (weather === "Snow") {
-      return "snow";
-    }
-  };
 
   useEffect(() => {
-    getHourlyWeather();
+    getForecastData();
+
+    if (allLocations.length > 0) {
+      setCurrentItem(allLocations.find((item) => item.id == id))
+    }
 
     if (forecastTimeline) {
-      if (forecastTimeline.length > 0) {
-        const today = moment().format("yyyy MM DD").replaceAll(" ", "-");
+      const today = moment().format("yyyy MM DD").replaceAll(" ", "-");
 
-        setHours(
-          forecastTimeline
-            ?.filter((hr) => hr.dt_txt?.slice(0, 10) === today)
-            .map((hrs) => hrs.dt_txt),
-        );
+      // TODO: add hours forecast timeline
+      /* setHours(
+        forecastTimeline
+          ?.filter((hr) => hr.dt_txt?.slice(0, 10) === today)
+          .map((hrs) => hrs.dt_txt),
+      ); */
 
-        setNextDaysForecast(
-          forecastTimeline
-            ?.filter((date) => date?.dt_txt.slice(0, 10) !== today)
-            .filter((_, i) => i % 8 === 0),
-        );
-      }
+      setNextDaysForecast(
+        forecastTimeline
+          .filter((date) => date?.dt_txt.slice(0, 10) !== today)
+          .filter((_, i) => i % 8 === 0),
+      );
+      console.log("next days forecast: ", nextDaysForecast)
     }
-  }, []);
 
-  const getHourlyWeather = async () => {
-    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${currentItem.name}&appid=${process.env.REACT_APP_API_KEY}`;
+  }, [currentItem]);
 
-    const { data } = await axios.get(url);
-    dispatch(setForecast(data));
+  const weather = currentItem?.weather && currentItem?.weather[0]?.main;
+
+  const giveClassByWeatherType = () => {
+    if (weather) {
+      if (weather === "Clouds") {
+        return "clouds";
+      } else if (weather === "Clear") {
+        return "clear";
+      } else if (weather === "Rain") {
+        return "rain";
+      } else if (weather === "Snow") {
+        return "snow";
+      }
+    } else {
+      return ""
+    }
+  };
+  console.log("current item: ", currentItem)
+
+  // TODO: add hours forecast timeline
+  const getForecastData = async () => {
+    if (currentItem) {
+      const url = `https://api.openweathermap.org/data/2.5/forecast?q=${currentItem.name}&appid=${process.env.REACT_APP_API_KEY}`;
+      const { data } = await axios.get(url);
+      console.log("forecast data: ", data)
+      dispatch(setForecast(data.list));
+    }
   };
 
   return (
-  
+    currentItem ? (
       <div className={`weather-city-details ${giveClassByWeatherType()}`}>
         <div className="header">
           <Link to="/">
@@ -91,37 +95,34 @@ const DetailPage = () => {
         </div>
         <div className="hero-section">
           <h2 className="date">{moment().format("dddd, DD, MMMM ")}</h2>
-          {weather && <h3 className="weather-type">{weather}</h3>}
+          <h3 className="weather-type">{currentItem.weather[0]?.main}</h3>
           <div className="hero-subSection">
-            {weatherIcon && (
+            {currentItem.weather[0]?.icon && (
               <img
-                src={`http://openweathermap.org/img/wn/${weatherIcon}@2x.png`}
+                src={`http://openweathermap.org/img/wn/${currentItem.weather[0]?.icon}@2x.png`}
                 alt="weather icon"
                 className="weather-icon"
               />
             )}
-            {temperature && (
-              <div className="temperature">{temperature.toFixed(1)}°</div>
-            )}
+            <div className="temperature">{currentItem?.main?.temp.toString().slice(0, 2)}°</div>
           </div>
         </div>
-        {nextDaysForecast.length > 0 && (
+        {nextDaysForecast?.length > 0 && (
           <div className="nextDays">
-            {nextDaysForecast?.map((day, idx) => (
-              <div className="day-box" key={idx}>
-                <div className="day-name">
-                  {moment(day.dt_txt.slice(0, 10)).format("dddd")}
+            {nextDaysForecast?.map((day, idx) => {
+              const dayTemp = day.main.temp.toString().slice(0, 2);
+              return (
+                <div className="day-box" key={idx}>
+                  <div className="day-name">
+                    {moment(day.dt_txt.slice(0, 10)).format("dddd")}
+                  </div>
+                  <div className="day-temp">{dayTemp}°</div>
                 </div>
-                <div className="day-temp">{day.main.temp.toFixed(1)}°</div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         )}
-        {/*<div className="timeline">{hours.map((time) => (
-       
-      ))}</div>*/}
-      </div>
-    
+      </div>) : null
   );
 };
 
