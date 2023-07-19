@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { setForecast } from "../../redux/actions/index";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import { giveClassByWeatherType } from "../../utils/utils";
 
 import IconBack from "../../assets/Arrow - Left.png";
 import AddButton from "../../assets/Plus-white.png";
@@ -52,23 +53,8 @@ const DetailPage = () => {
 
   }, [currentItem]);
 
-  const weather = currentItem?.weather && currentItem?.weather[0]?.main;
 
-  const giveClassByWeatherType = () => {
-    if (weather) {
-      if (weather === "Clouds") {
-        return "clouds";
-      } else if (weather === "Clear") {
-        return "clear";
-      } else if (weather === "Rain") {
-        return "rain";
-      } else if (weather === "Snow") {
-        return "snow";
-      }
-    } else {
-      return ""
-    }
-  };
+  
   console.log("current item: ", currentItem)
 
   // TODO: add hours forecast timeline
@@ -83,7 +69,7 @@ const DetailPage = () => {
 
   return (
     currentItem ? (
-      <div className={`weather-city-details ${giveClassByWeatherType()}`}>
+      <div className={`weather-city-details ${giveClassByWeatherType(currentItem?.weather[0]?.main)}`}>
         <div className="header">
           <Link to="/">
             <img src={IconBack} alt="icon back" className="icon-back"></img>
@@ -91,7 +77,6 @@ const DetailPage = () => {
           {currentItem.name && (
             <h1 className="city-name">{currentItem.name}</h1>
           )}
-          <img src={AddButton} alt="add button" className="icon-add"></img>
         </div>
         <div className="hero-section">
           <h2 className="date">{moment().format("dddd, DD, MMMM ")}</h2>
@@ -117,6 +102,13 @@ const DetailPage = () => {
                     {moment(day.dt_txt.slice(0, 10)).format("dddd")}
                   </div>
                   <div className="day-temp">{dayTemp}°</div>
+                  <div className="day-weather-icon">
+                    <img
+                      src={`http://openweathermap.org/img/wn/${day.weather[0]?.icon}@2x.png`}
+                      alt="weather icon"
+                      className="weather-icon"
+                    />
+                  </div>
                 </div>
               )
             })}

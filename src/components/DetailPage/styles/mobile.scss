@@ -21,16 +21,17 @@
     }
 
     .header {
-      @include d-flex(space-between, center, row);
+      @include d-flex(null, center, row);
 
       .city-name {
-        @include style-font($primary-text-white, $poppins, 600, 32px, 48px, 0);
+        @include style-font($primary-text-white, $poppins, 32px, 600, 48px, 0);
+        margin: 0 auto;
       }
     }
 
     .hero-section {
       text-align: center;
-      margin-top: 10px;
+      margin-top: 50px;
 
       .date {
         @include style-font($primary-text-white, $poppins, 20px, 500, 18px, 0);
@@ -47,8 +48,8 @@
         @include d-flex(space-around, center, row);
 
         .weather-icon {
-          width: 100px;
-          height: 100px;
+          width: 140px;
+          height: 140px;
         }
 
         .temperature {
@@ -87,6 +88,9 @@
 
         .day-name {
             @include style-font($primary-text-white, $poppins, 22px, 600, 33px, 0);
+        }
+        .day-temp {
+            @include style-font($primary-text-white, $poppins, 20px, 600, 33px, 0);
         }
     }
     }

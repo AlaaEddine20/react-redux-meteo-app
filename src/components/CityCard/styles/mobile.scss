@@ -27,6 +27,10 @@
     &.snow {
       background: radial-gradient(circle, #a7b6ee 0%, #d6d8da 100%)
     }
+    
+    &.haze {
+      background: radial-gradient(circle, #a7abba 0%, #677079 100%)
+    }
 
     .left-content {
       @include d-flex(unset, unset, column);

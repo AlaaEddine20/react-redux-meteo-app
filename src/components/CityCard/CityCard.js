@@ -1,24 +1,14 @@
 import React from "react";
 import moment from "moment";
-
+import { giveClassByWeatherType } from "../../utils/utils";
 import "./styles/index.scss";
 
 const CityCard = ({ cityName, temperature, weather, icon }) => {
 
-  const giveClassByWeatherType = () => {
-    if (weather === "Clouds") {
-      return "clouds";
-    } else if (weather === "Clear") {
-      return "clear";
-    } else if (weather === "Rain") {
-      return "rain";
-    } else if (weather === "Snow") {
-      return "snow";
-    }
-  };
+  
 
   return (
-    <div className={`cityCard ${giveClassByWeatherType()}`}>
+    <div className={`cityCard ${giveClassByWeatherType(weather)}`}>
       <div className="left-content">
         {cityName && <p className="city-name">{cityName}</p>}
         <p className="date">{moment().format("dddd, DD, MMMM ")}</p>
