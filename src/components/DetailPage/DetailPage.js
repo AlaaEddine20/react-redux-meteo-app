@@ -2,74 +2,51 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { setForecast } from "../../redux/actions/index";
+// import { setForecast } from "../../redux/actions/index";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { giveClassByWeatherType } from "../../utils/utils";
 
 import IconBack from "../../assets/Arrow - Left.png";
-import AddButton from "../../assets/Plus-white.png";
 
 import "./styles/index.scss";
 
 const DetailPage = () => {
-  const [nextDaysForecast, setNextDaysForecast] = useState([]);
-  const [currentItem, setCurrentItem] = useState()
-
-  const allLocations = useSelector((state) => state.weatherReducer.locations);
-  const forecastTimeline = useSelector((state) => state.weatherReducer?.forecastTimeline);
-
-  const dispatch = useDispatch();
-
+  const [currentItem, setCurrentItem] = useState();
+  const [forecast, setForecast] = useState()
   const { id } = useParams();
 
-
-
+  const allLocations = useSelector((state) => state.weatherReducer.locations);
+  const today = moment().format("yyyy MM DD").replaceAll(" ", "-");
 
   useEffect(() => {
-    getForecastData();
-
     if (allLocations.length > 0) {
       setCurrentItem(allLocations.find((item) => item.id == id))
+      console.log("CURRENT ITEM: ", currentItem)
+      if (currentItem) {
+        getForecastData()
+      }
     }
 
-    if (forecastTimeline) {
-      const today = moment().format("yyyy MM DD").replaceAll(" ", "-");
-
-      // TODO: add hours forecast timeline
-      /* setHours(
-        forecastTimeline
-          ?.filter((hr) => hr.dt_txt?.slice(0, 10) === today)
-          .map((hrs) => hrs.dt_txt),
-      ); */
-
-      setNextDaysForecast(
-        forecastTimeline
-          .filter((date) => date?.dt_txt.slice(0, 10) !== today)
-          .filter((_, i) => i % 8 === 0),
-      );
-      console.log("next days forecast: ", nextDaysForecast)
-    }
+    // TODO: add hours forecast timeline
+    /* setHours(
+      forecastTimeline
+        ?.filter((hr) => hr.dt_txt?.slice(0, 10) === today)
+        .map((hrs) => hrs.dt_txt),
+    ); */
 
   }, [currentItem]);
 
-
-  
-  console.log("current item: ", currentItem)
-
   // TODO: add hours forecast timeline
   const getForecastData = async () => {
-    if (currentItem) {
-      const url = `https://api.openweathermap.org/data/2.5/forecast?q=${currentItem.name}&appid=${process.env.REACT_APP_API_KEY}`;
-      const { data } = await axios.get(url);
-      console.log("forecast data: ", data)
-      dispatch(setForecast(data.list));
-    }
+    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${currentItem.name}&appid=${process.env.REACT_APP_API_KEY}`;
+    const { data } = await axios.get(url);
+    setForecast(data.list)
   };
 
   return (
     currentItem ? (
-      <div className={`weather-city-details ${giveClassByWeatherType(currentItem?.weather[0]?.main)}`}>
+      <div className={`weather-city-details ${giveClassByWeatherType(currentItem.weather[0]?.main)}`}>
         <div className="header">
           <Link to="/">
             <img src={IconBack} alt="icon back" className="icon-back"></img>
@@ -92,26 +69,27 @@ const DetailPage = () => {
             <div className="temperature">{currentItem?.main?.temp.toString().slice(0, 2)}°</div>
           </div>
         </div>
-        {nextDaysForecast?.length > 0 && (
+        {forecast?.length > 0 && (
           <div className="nextDays">
-            {nextDaysForecast?.map((day, idx) => {
-              const dayTemp = day.main.temp.toString().slice(0, 2);
-              return (
-                <div className="day-box" key={idx}>
-                  <div className="day-name">
-                    {moment(day.dt_txt.slice(0, 10)).format("dddd")}
+            {forecast.filter((date) => date?.dt_txt.slice(0, 10) !== today)
+              .filter((_, i) => i % 8 === 0)?.map((day, idx) => {
+                const dayTemp = day.main.temp.toString().slice(0, 2);
+                return (
+                  <div className="day-box" key={idx}>
+                    <div className="day-name">
+                      {moment(day.dt_txt.slice(0, 10)).format("dddd")}
+                    </div>
+                    <div className="day-temp">{dayTemp}°</div>
+                    <div className="day-weather-icon">
+                      <img
+                        src={`http://openweathermap.org/img/wn/${day.weather[0]?.icon}@2x.png`}
+                        alt="weather icon"
+                        className="weather-icon"
+                      />
+                    </div>
                   </div>
-                  <div className="day-temp">{dayTemp}°</div>
-                  <div className="day-weather-icon">
-                    <img
-                      src={`http://openweathermap.org/img/wn/${day.weather[0]?.icon}@2x.png`}
-                      alt="weather icon"
-                      className="weather-icon"
-                    />
-                  </div>
-                </div>
-              )
-            })}
+                )
+              })}
           </div>
         )}
       </div>) : null

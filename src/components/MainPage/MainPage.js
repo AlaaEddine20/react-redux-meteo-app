@@ -19,6 +19,7 @@ const MainPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [openAddCity, setOpenAddCity] = useState(false);
   const [activeStickyMenu, setActiveStickyMenu] = useState("home");
+  const [apiError, setApiError] = useState(false)
 
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
@@ -44,10 +45,16 @@ const MainPage = () => {
   const getWeatherByCityName = async () => {
     const baseUrl = `https://api.openweathermap.org/data/2.5/weather`;
 
-    const { data } = await axios.get(
-      `${baseUrl}?q=${searchTerm}&appid=${process.env.REACT_APP_API_KEY}&units=metric`,
-    );
-    dispatch(addLocations(data));
+    try {
+      const res = await axios.get(
+        `${baseUrl}?q=${searchTerm}&appid=${process.env.REACT_APP_API_KEY}&units=metric`,
+      );
+      dispatch(addLocations(res.data));
+      // setApiError(false)
+    } catch (err) {
+      setApiError(true)
+      console.log(err)
+    }
   };
 
   const handleOpenAddCity = () => {
@@ -66,16 +73,18 @@ const MainPage = () => {
   const renderAddCityBtn = () => {
     return (
       <div className="add-city">
-        <button className="btn" onClick={() => handleOpenAddCity()}>
-          <img src={AddIcon} alt="add-icon" />
+        <button className="btn" onClick={handleOpenAddCity}>
+          {!openAddCity && <img src={AddIcon} alt="add-icon" />}
         </button>
         {openAddCity ? (
           <form>
             <input
-              onChange={(e) => handleOnchange(e)}
+              onChange={handleOnchange}
               value={searchTerm}
             ></input>
-            <button onClick={(e) => handleSearch(e)}>Aggiungi</button>
+            <button onClick={handleSearch}>
+              <img src={Search} alt="search button" />
+            </button>
           </form>
         ) : (
           <h3 className="txt">Aggiungi città</h3>
@@ -90,9 +99,8 @@ const MainPage = () => {
         {menuItems.map((item, index) => (
           <div
             key={index}
-            className={`menu-item ${
-              activeStickyMenu === item.name && "active"
-            }`}
+            className={`menu-item ${activeStickyMenu === item.name && "active"
+              }`}
           >
             <img
               id={item.name}
@@ -116,18 +124,18 @@ const MainPage = () => {
         {renderAddCityBtn()}
         {allLocations.length > 0
           && allLocations.map((location) => (
-              <div key={location.id} className="city-card-container">
-                <Link to={`/details/${location.id}`}>
-                  <CityCard
-                    key={location.id}
-                    cityName={location.name}
-                    temperature={location.main.temp}
-                    weather={location.weather[0].main}
-                    icon={location.weather[0].icon}
-                  />
-                </Link>
-              </div>
-            ))}
+            <div key={location.id} className="city-card-container">
+              <Link to={`/details/${location.id}`}>
+                <CityCard
+                  key={location.id}
+                  cityName={location.name}
+                  temperature={location.main.temp}
+                  weather={location.weather[0].main}
+                  icon={location.weather[0].icon}
+                />
+              </Link>
+            </div>
+          )).reverse()}
         {renderMenuItems()}
       </div>
     );
