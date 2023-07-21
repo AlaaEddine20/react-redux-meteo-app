@@ -44,7 +44,6 @@
       }
 
       .hero-subSection {
-        margin-top: 24px;
         @include d-flex(space-around, center, row);
 
         .weather-icon {
@@ -66,19 +65,20 @@
     }
 
     .nextDays::-webkit-scrollbar {
-    display: none;
-}
+      display: none;
+    }
 
     .nextDays {
-    display: flex;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    gap: 15px;
-    height: 280px;
-    margin-left: -20px;
-    padding: 0 20px;
-    
-    .day-box {
+      display: flex;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      gap: 15px;
+      height: 280px;
+      margin-left: -20px;
+      padding: 0 20px;
+      margin-top: 20px;
+
+      .day-box {
         width: 148px;
         height: 232px;
         @include d-flex(center, center, column);
@@ -87,12 +87,35 @@
         background: $day-card-color;
 
         .day-name {
-            @include style-font($primary-text-white, $poppins, 22px, 600, 33px, 0);
+          @include style-font(
+            $primary-text-white,
+            $poppins,
+            22px,
+            600,
+            33px,
+            0
+          );
         }
         .day-temp {
-            @include style-font($primary-text-white, $poppins, 20px, 600, 33px, 0);
+          @include style-font(
+            $primary-text-white,
+            $poppins,
+            18px,
+            600,
+            33px,
+            0
+          );
+          display: flex;
+          gap: 15px;
+
+          .min-temp {
+            color: #0077b6;
+          }
+          .max-temp {
+            color: #d62828;
+          }
         }
-    }
+      }
     }
   }
 }
